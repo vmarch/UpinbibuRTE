@@ -37,7 +37,7 @@ import java.util.Locale;
  * limitations under the License.
  */
 
-public class RichEditor extends WebView {
+public class UpiRichEditor extends WebView {
 
     public enum Type {
         BOLD,
@@ -76,24 +76,24 @@ public class RichEditor extends WebView {
     }
 
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
-    private static final String CALLBACK_SCHEME = "re-callback://";
-    private static final String STATE_SCHEME = "re-state://";
+    private static final String CALLBACK_SCHEME = "rte-callback://";
+    private static final String STATE_SCHEME = "rte-state://";
     private boolean isReady = false;
     private String mContents;
     private OnTextChangeListener mTextChangeListener;
     private OnDecorationStateListener mDecorationStateListener;
     private AfterInitialLoadListener mLoadListener;
 
-    public RichEditor(Context context) {
+    public UpiRichEditor(Context context) {
         this(context, null);
     }
 
-    public RichEditor(Context context, AttributeSet attrs) {
+    public UpiRichEditor(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.webViewStyle);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public RichEditor(Context context, AttributeSet attrs, int defStyleAttr) {
+    public UpiRichEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         setVerticalScrollBarEnabled(false);
@@ -152,26 +152,26 @@ public class RichEditor extends WebView {
         int gravity = ta.getInt(0, NO_ID);
         switch (gravity) {
             case Gravity.LEFT:
-                exec("javascript:RE.setTextAlign(\"left\")");
+                exec("javascript:RTE.setTextAlign(\"left\")");
                 break;
             case Gravity.RIGHT:
-                exec("javascript:RE.setTextAlign(\"right\")");
+                exec("javascript:RTE.setTextAlign(\"right\")");
                 break;
             case Gravity.TOP:
-                exec("javascript:RE.setVerticalAlign(\"top\")");
+                exec("javascript:RTE.setVerticalAlign(\"top\")");
                 break;
             case Gravity.BOTTOM:
-                exec("javascript:RE.setVerticalAlign(\"bottom\")");
+                exec("javascript:RTE.setVerticalAlign(\"bottom\")");
                 break;
             case Gravity.CENTER_VERTICAL:
-                exec("javascript:RE.setVerticalAlign(\"middle\")");
+                exec("javascript:RTE.setVerticalAlign(\"middle\")");
                 break;
             case Gravity.CENTER_HORIZONTAL:
-                exec("javascript:RE.setTextAlign(\"center\")");
+                exec("javascript:RTE.setTextAlign(\"center\")");
                 break;
             case Gravity.CENTER:
-                exec("javascript:RE.setVerticalAlign(\"middle\")");
-                exec("javascript:RE.setTextAlign(\"center\")");
+                exec("javascript:RTE.setVerticalAlign(\"middle\")");
+                exec("javascript:RTE.setTextAlign(\"center\")");
                 break;
         }
 
@@ -183,7 +183,7 @@ public class RichEditor extends WebView {
             contents = "";
         }
         try {
-            exec("javascript:RE.setHtml('" + URLEncoder.encode(contents, "UTF-8") + "');");
+            exec("javascript:RTE.setHtml('" + URLEncoder.encode(contents, "UTF-8") + "');");
         } catch (UnsupportedEncodingException e) {
             // No handling
         }
@@ -196,17 +196,17 @@ public class RichEditor extends WebView {
 
     public void setEditorFontColor(int color) {
         String hex = convertHexColorString(color);
-        exec("javascript:RE.setBaseTextColor('" + hex + "');");
+        exec("javascript:RTE.setBaseTextColor('" + hex + "');");
     }
 
     public void setEditorFontSize(int px) {
-        exec("javascript:RE.setBaseFontSize('" + px + "px');");
+        exec("javascript:RTE.setBaseFontSize('" + px + "px');");
     }
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
         super.setPadding(left, top, right, bottom);
-        exec("javascript:RE.setPadding('" + left + "px', '" + top + "px', '" + right + "px', '" + bottom
+        exec("javascript:RTE.setPadding('" + left + "px', '" + top + "px', '" + right + "px', '" + bottom
                 + "px');");
     }
 
@@ -231,7 +231,7 @@ public class RichEditor extends WebView {
         String base64 = Utils.toBase64(bitmap);
         bitmap.recycle();
 
-        exec("javascript:RE.setBackgroundImage('url(data:image/png;base64," + base64 + ")');");
+        exec("javascript:RTE.setBackgroundImage('url(data:image/png;base64," + base64 + ")');");
     }
 
     @Override
@@ -240,27 +240,27 @@ public class RichEditor extends WebView {
         String base64 = Utils.toBase64(bitmap);
         bitmap.recycle();
 
-        exec("javascript:RE.setBackgroundImage('url(data:image/png;base64," + base64 + ")');");
+        exec("javascript:RTE.setBackgroundImage('url(data:image/png;base64," + base64 + ")');");
     }
 
     public void setBackground(String url) {
-        exec("javascript:RE.setBackgroundImage('url(" + url + ")');");
+        exec("javascript:RTE.setBackgroundImage('url(" + url + ")');");
     }
 
     public void setEditorWidth(int px) {
-        exec("javascript:RE.setWidth('" + px + "px');");
+        exec("javascript:RTE.setWidth('" + px + "px');");
     }
 
     public void setEditorHeight(int px) {
-        exec("javascript:RE.setHeight('" + px + "px');");
+        exec("javascript:RTE.setHeight('" + px + "px');");
     }
 
     public void setPlaceholder(String placeholder) {
-        exec("javascript:RE.setPlaceholder('" + placeholder + "');");
+        exec("javascript:RTE.setPlaceholder('" + placeholder + "');");
     }
 
     public void setInputEnabled(Boolean inputEnabled) {
-        exec("javascript:RE.setInputEnabled(" + inputEnabled + ")");
+        exec("javascript:RTE.setInputEnabled(" + inputEnabled + ")");
     }
 
     public void loadCSS(String cssFile) {
@@ -277,120 +277,120 @@ public class RichEditor extends WebView {
     }
 
     public void undo() {
-        exec("javascript:RE.undo();");
+        exec("javascript:RTE.undo();");
     }
 
     public void redo() {
-        exec("javascript:RE.redo();");
+        exec("javascript:RTE.redo();");
     }
 
     public void setBold() {
-        exec("javascript:RE.setBold();");
+        exec("javascript:RTE.setBold();");
     }
 
     public void setItalic() {
-        exec("javascript:RE.setItalic();");
+        exec("javascript:RTE.setItalic();");
     }
 
     public void setSubscript() {
-        exec("javascript:RE.setSubscript();");
+        exec("javascript:RTE.setSubscript();");
     }
 
     public void setSuperscript() {
-        exec("javascript:RE.setSuperscript();");
+        exec("javascript:RTE.setSuperscript();");
     }
 
     public void setStrikeThrough() {
-        exec("javascript:RE.setStrikeThrough();");
+        exec("javascript:RTE.setStrikeThrough();");
     }
 
     public void setUnderline() {
-        exec("javascript:RE.setUnderline();");
+        exec("javascript:RTE.setUnderline();");
     }
 
     public void setTextColor(int color) {
-        exec("javascript:RE.prepareInsert();");
+        exec("javascript:RTE.prepareInsert();");
 
         String hex = convertHexColorString(color);
-        exec("javascript:RE.setTextColor('" + hex + "');");
+        exec("javascript:RTE.setTextColor('" + hex + "');");
     }
 
     public void setTextBackgroundColor(int color) {
-        exec("javascript:RE.prepareInsert();");
+        exec("javascript:RTE.prepareInsert();");
 
         String hex = convertHexColorString(color);
-        exec("javascript:RE.setTextBackgroundColor('" + hex + "');");
+        exec("javascript:RTE.setTextBackgroundColor('" + hex + "');");
     }
 
     public void setFontSize(int fontSize) {
         if (fontSize > 7 || fontSize < 1) {
-            Log.e("RichEditor", "Font size should have a value between 1-7");
+            Log.e("UpiRichEditor", "Font size should have a value between 1-7");
         }
-        exec("javascript:RE.setFontSize('" + fontSize + "');");
+        exec("javascript:RTE.setFontSize('" + fontSize + "');");
     }
 
     public void removeFormat() {
-        exec("javascript:RE.removeFormat();");
+        exec("javascript:RTE.removeFormat();");
     }
 
     public void setHeading(int heading) {
-        exec("javascript:RE.setHeading('" + heading + "');");
+        exec("javascript:RTE.setHeading('" + heading + "');");
     }
 
     public void setIndent() {
-        exec("javascript:RE.setIndent();");
+        exec("javascript:RTE.setIndent();");
     }
 
     public void setOutdent() {
-        exec("javascript:RE.setOutdent();");
+        exec("javascript:RTE.setOutdent();");
     }
 
     public void setAlignLeft() {
-        exec("javascript:RE.setJustifyLeft();");
+        exec("javascript:RTE.setJustifyLeft();");
     }
 
     public void setAlignCenter() {
-        exec("javascript:RE.setJustifyCenter();");
+        exec("javascript:RTE.setJustifyCenter();");
     }
 
     public void setAlignRight() {
-        exec("javascript:RE.setJustifyRight();");
+        exec("javascript:RTE.setJustifyRight();");
     }
 
     public void setBlockquote() {
-        exec("javascript:RE.setBlockquote();");
+        exec("javascript:RTE.setBlockquote();");
     }
 
     public void setBullets() {
-        exec("javascript:RE.setBullets();");
+        exec("javascript:RTE.setBullets();");
     }
 
     public void setNumbers() {
-        exec("javascript:RE.setNumbers();");
+        exec("javascript:RTE.setNumbers();");
     }
 
     public void insertImage(String url, String alt) {
-        exec("javascript:RE.prepareInsert();");
-        exec("javascript:RE.insertImage('" + url + "', '" + alt + "');");
+        exec("javascript:RTE.prepareInsert();");
+        exec("javascript:RTE.insertImage('" + url + "', '" + alt + "');");
     }
 
     public void insertLink(String href, String title) {
-        exec("javascript:RE.prepareInsert();");
-        exec("javascript:RE.insertLink('" + href + "', '" + title + "');");
+        exec("javascript:RTE.prepareInsert();");
+        exec("javascript:RTE.insertLink('" + href + "', '" + title + "');");
     }
 
     public void insertTodo() {
-        exec("javascript:RE.prepareInsert();");
-        exec("javascript:RE.setTodo('" + Utils.getCurrentTime() + "');");
+        exec("javascript:RTE.prepareInsert();");
+        exec("javascript:RTE.setTodo('" + Utils.getCurrentTime() + "');");
     }
 
     public void focusEditor() {
         requestFocus();
-        exec("javascript:RE.focus();");
+        exec("javascript:RTE.focus();");
     }
 
     public void clearFocusEditor() {
-        exec("javascript:RE.blurFocus();");
+        exec("javascript:RTE.blurFocus();");
     }
 
     private String convertHexColorString(int color) {
