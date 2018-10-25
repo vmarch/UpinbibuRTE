@@ -437,6 +437,7 @@ public class UpiRichEditor extends WebView {
 
             if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
                 callback(decode);
+                checkTextStyles(decode);
                 return true;
             } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
                 stateCheck(decode);
