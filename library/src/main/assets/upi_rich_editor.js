@@ -106,18 +106,6 @@ RTE.setItalic = function() {
     document.execCommand('italic', false, null);
 }
 
-RTE.setSubscript = function() {
-    document.execCommand('subscript', false, null);
-}
-
-RTE.setSuperscript = function() {
-    document.execCommand('superscript', false, null);
-}
-
-RTE.setStrikeThrough = function() {
-    document.execCommand('strikeThrough', false, null);
-}
-
 RTE.setUnderline = function() {
     document.execCommand('underline', false, null);
 }
@@ -202,11 +190,6 @@ RTE.insertLink = function(url, title) {
        sel.addRange(range);
    }
     RTE.callback();
-}
-
-RTE.setTodo = function(text) {
-    var html = '<input type="checkbox" name="'+ text +'" value="'+ text +'"/> &nbsp;';
-    document.execCommand('insertHTML', false, html);
 }
 
 RTE.prepareInsert = function() {

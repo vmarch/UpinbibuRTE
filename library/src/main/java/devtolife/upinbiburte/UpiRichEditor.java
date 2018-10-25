@@ -61,17 +61,16 @@ public class UpiRichEditor extends WebView {
     }
 
     public interface OnTextChangeListener {
-
         void onTextChange(String text);
+        void onStyleCheck(String text, List<Type> types);
+
     }
 
     public interface OnDecorationStateListener {
-
         void onStateChangeListener(String text, List<Type> types);
     }
 
     public interface AfterInitialLoadListener {
-
         void onAfterInitialLoad(boolean isReady);
     }
 
@@ -141,6 +140,22 @@ public class UpiRichEditor extends WebView {
         if (mDecorationStateListener != null) {
             mDecorationStateListener.onStateChangeListener(state, types);
         }
+    }
+
+    private void checkTextStyles(String text) {
+        String state = text.replaceFirst(STATE_SCHEME, "").toUpperCase(Locale.ENGLISH);
+        List<Type> types = new ArrayList<>();
+        for (Type type : Type.values()) {
+            if (TextUtils.indexOf(state, type.name()) != -1) {
+                types.add(type);
+            }
+        }
+
+
+        if (mTextChangeListener != null) {
+            mTextChangeListener.onStyleCheck(state, types);
+        }
+
     }
 
     private void applyAttributes(Context context, AttributeSet attrs) {
@@ -292,18 +307,6 @@ public class UpiRichEditor extends WebView {
         exec("javascript:RTE.setItalic();");
     }
 
-    public void setSubscript() {
-        exec("javascript:RTE.setSubscript();");
-    }
-
-    public void setSuperscript() {
-        exec("javascript:RTE.setSuperscript();");
-    }
-
-    public void setStrikeThrough() {
-        exec("javascript:RTE.setStrikeThrough();");
-    }
-
     public void setUnderline() {
         exec("javascript:RTE.setUnderline();");
     }
@@ -379,11 +382,6 @@ public class UpiRichEditor extends WebView {
         exec("javascript:RTE.insertLink('" + href + "', '" + title + "');");
     }
 
-    public void insertTodo() {
-        exec("javascript:RTE.prepareInsert();");
-        exec("javascript:RTE.setTodo('" + Utils.getCurrentTime() + "');");
-    }
-
     public void focusEditor() {
         requestFocus();
         exec("javascript:RTE.focus();");
@@ -442,6 +440,7 @@ public class UpiRichEditor extends WebView {
                 return true;
             } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
                 stateCheck(decode);
+                checkTextStyles(decode);
                 return true;
             }
 
