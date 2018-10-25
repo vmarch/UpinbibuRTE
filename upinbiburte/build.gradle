@@ -4,13 +4,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.vmarch'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
-    buildToolsVersion BUILD_TOOLS_VERSION
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion MIN_SDK_VERSION as int
-        targetSdkVersion TARGET_SDK_VERSION as int
-        versionCode VERSION_CODE as int
-        versionName VERSION_NAME
+        minSdkVersion 18
+        targetSdkVersion 28
+        versionCode 3
+        versionName '1.0.3'
     }
 }
