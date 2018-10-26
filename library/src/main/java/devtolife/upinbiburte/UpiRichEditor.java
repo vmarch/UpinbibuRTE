@@ -62,12 +62,13 @@ public class UpiRichEditor extends WebView {
 
     public interface OnTextChangeListener {
         void onTextChange(String text);
-        void onStyleCheck(String text, List<Type> types);
-
     }
 
     public interface OnDecorationStateListener {
         void onStateChangeListener(String text, List<Type> types);
+    }
+    public interface OnStateListener {
+        void onStateListener(String text);
     }
 
     public interface AfterInitialLoadListener {
@@ -81,6 +82,7 @@ public class UpiRichEditor extends WebView {
     private String mContents;
     private OnTextChangeListener mTextChangeListener;
     private OnDecorationStateListener mDecorationStateListener;
+    private OnStateListener mStateListener;
     private AfterInitialLoadListener mLoadListener;
 
     public UpiRichEditor(Context context) {
@@ -116,6 +118,9 @@ public class UpiRichEditor extends WebView {
     public void setOnDecorationChangeListener(OnDecorationStateListener listener) {
         mDecorationStateListener = listener;
     }
+    public void setOnStateChangeListener(OnStateListener listener) {
+        mStateListener = listener;
+    }
 
     public void setOnInitialLoadListener(AfterInitialLoadListener listener) {
         mLoadListener = listener;
@@ -123,16 +128,14 @@ public class UpiRichEditor extends WebView {
 
     private void callback(String text) {
         mContents = text.replaceFirst(CALLBACK_SCHEME, "");
-        String state = text.replaceFirst(STATE_SCHEME, "").toUpperCase(Locale.ENGLISH);
-        List<Type> types = new ArrayList<>();
-        for (Type type : Type.values()) {
-            if (TextUtils.indexOf(state, type.name()) != -1) {
-                types.add(type);
-            }
-        }
         if (mTextChangeListener != null) {
             mTextChangeListener.onTextChange(mContents);
-            mTextChangeListener.onStyleCheck(state, types);
+        }
+    }
+    private void getTypeStyles(String text) {
+
+        if (mStateListener != null) {
+            mStateListener.onStateListener(text);
         }
     }
 
@@ -426,6 +429,8 @@ public class UpiRichEditor extends WebView {
                 // No handling
                 return false;
             }
+
+            getTypeStyles(decode);
 
             if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
                 callback(decode);
