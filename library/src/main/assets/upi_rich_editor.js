@@ -26,7 +26,6 @@ RTE.editor = document.getElementById('editor');
 
 document.addEventListener("selectionchange", function() { RTE.backuprange(); });
 
-// Initializations
 RTE.callback = function() {
     window.location.href = "rte-callback://" + encodeURI(RTE.getHtml());
 }
@@ -286,6 +285,7 @@ RTE.removeFormat = function() {
 
 // Event Listeners
 RTE.editor.addEventListener("input", RTE.callback);
+
 RTE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {

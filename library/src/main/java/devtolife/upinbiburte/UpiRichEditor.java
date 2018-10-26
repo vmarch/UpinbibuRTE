@@ -123,8 +123,16 @@ public class UpiRichEditor extends WebView {
 
     private void callback(String text) {
         mContents = text.replaceFirst(CALLBACK_SCHEME, "");
+        String state = text.replaceFirst(STATE_SCHEME, "").toUpperCase(Locale.ENGLISH);
+        List<Type> types = new ArrayList<>();
+        for (Type type : Type.values()) {
+            if (TextUtils.indexOf(state, type.name()) != -1) {
+                types.add(type);
+            }
+        }
         if (mTextChangeListener != null) {
             mTextChangeListener.onTextChange(mContents);
+            mTextChangeListener.onStyleCheck(state, types);
         }
     }
 
@@ -140,22 +148,6 @@ public class UpiRichEditor extends WebView {
         if (mDecorationStateListener != null) {
             mDecorationStateListener.onStateChangeListener(state, types);
         }
-    }
-
-    private void checkTextStyles(String text) {
-        String state = text.replaceFirst(STATE_SCHEME, "").toUpperCase(Locale.ENGLISH);
-        List<Type> types = new ArrayList<>();
-        for (Type type : Type.values()) {
-            if (TextUtils.indexOf(state, type.name()) != -1) {
-                types.add(type);
-            }
-        }
-
-
-        if (mTextChangeListener != null) {
-            mTextChangeListener.onStyleCheck(state, types);
-        }
-
     }
 
     private void applyAttributes(Context context, AttributeSet attrs) {
@@ -437,11 +429,9 @@ public class UpiRichEditor extends WebView {
 
             if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
                 callback(decode);
-                checkTextStyles(decode);
                 return true;
             } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
                 stateCheck(decode);
-                checkTextStyles(decode);
                 return true;
             }
 
