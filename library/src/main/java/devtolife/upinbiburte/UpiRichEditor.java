@@ -68,7 +68,7 @@ public class UpiRichEditor extends WebView {
         void onStateChangeListener(String text, List<Type> types);
     }
     public interface OnStateListener {
-        void onStateListener(String text);
+        void onStateChangeListener(String text);
     }
 
     public interface AfterInitialLoadListener {
@@ -118,7 +118,7 @@ public class UpiRichEditor extends WebView {
     public void setOnDecorationChangeListener(OnDecorationStateListener listener) {
         mDecorationStateListener = listener;
     }
-    public void setOnStateChangeListener(OnStateListener listener) {
+    public void setOnStateListener(OnStateListener listener) {
         mStateListener = listener;
     }
 
@@ -135,7 +135,7 @@ public class UpiRichEditor extends WebView {
     private void getTypeStyles(String text) {
 
         if (mStateListener != null) {
-            mStateListener.onStateListener(text);
+            mStateListener.onStateChangeListener(text);
         }
     }
 
@@ -434,9 +434,11 @@ public class UpiRichEditor extends WebView {
 
             if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
                 callback(decode);
+                getTypeStyles(decode);
                 return true;
             } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
                 stateCheck(decode);
+                getTypeStyles(decode);
                 return true;
             }
 
