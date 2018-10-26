@@ -67,9 +67,6 @@ public class UpiRichEditor extends WebView {
     public interface OnDecorationStateListener {
         void onStateChangeListener(String text, List<Type> types);
     }
-    public interface OnStateListener {
-        void onStateChangeListener(String text);
-    }
 
     public interface AfterInitialLoadListener {
         void onAfterInitialLoad(boolean isReady);
