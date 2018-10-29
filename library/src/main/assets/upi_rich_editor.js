@@ -293,4 +293,4 @@ RTE.editor.addEventListener("input", RTE.callback);
 //    }
 //});
 RTE.editor.addEventListener("click", RTE.enabledEditingItems);
-RTE.editor.addEventListener("keyup", RTE.enabledEditingItems);
+//RTE.editor.addEventListener("keyup", RTE.enabledEditingItems);
