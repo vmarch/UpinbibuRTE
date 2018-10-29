@@ -285,11 +285,13 @@ RTE.removeFormat = function() {
 
 // Event Listeners
 RTE.editor.addEventListener("input", RTE.callback);
+RTE.editor.addEventListener("input", RTE.enabledEditingItems);
 
-RTE.editor.addEventListener("keyup", function(e) {
-
-        RTE.enabledEditingItems(e);
-
-});
+//RTE.editor.addEventListener("keyup", function(e) {
+//    var KEY_LEFT = 37, KEY_RIGHT = 39;
+//    if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
+//        RTE.enabledEditingItems(e);
+//    }
+//});
 RTE.editor.addEventListener("click", RTE.enabledEditingItems);
 //RTE.editor.addEventListener("keyup", RTE.enabledEditingItems);
