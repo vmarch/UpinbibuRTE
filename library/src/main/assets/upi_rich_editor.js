@@ -224,16 +224,7 @@ RTE.enabledEditingItems = function(e) {
     if (document.queryCommandState('italic')) {
         items.push('italic');
     }
-    if (document.queryCommandState('subscript')) {
-        items.push('subscript');
-    }
-    if (document.queryCommandState('superscript')) {
-        items.push('superscript');
-    }
-    if (document.queryCommandState('strikeThrough')) {
-        items.push('strikeThrough');
-    }
-    if (document.queryCommandState('underline')) {
+     if (document.queryCommandState('underline')) {
         items.push('underline');
     }
     if (document.queryCommandState('insertOrderedList')) {
@@ -242,27 +233,40 @@ RTE.enabledEditingItems = function(e) {
     if (document.queryCommandState('insertUnorderedList')) {
         items.push('unorderedList');
     }
-    if (document.queryCommandState('justifyCenter')) {
-        items.push('justifyCenter');
-    }
-    if (document.queryCommandState('justifyFull')) {
-        items.push('justifyFull');
-    }
-    if (document.queryCommandState('justifyLeft')) {
-        items.push('justifyLeft');
-    }
-    if (document.queryCommandState('justifyRight')) {
-        items.push('justifyRight');
-    }
-    if (document.queryCommandState('insertHorizontalRule')) {
-        items.push('horizontalRule');
-    }
+
     var formatBlock = document.queryCommandValue('formatBlock');
     if (formatBlock.length > 0) {
         items.push(formatBlock);
     }
 
     window.location.href = "rte-state://" + encodeURI(items.join(','));
+}
+
+RTE.getTypes = function() {
+    var items = [];
+    if (document.queryCommandState('bold')) {
+        items.push('bold');
+    }
+    if (document.queryCommandState('italic')) {
+        items.push('italic');
+    }
+     if (document.queryCommandState('underline')) {
+        items.push('underline');
+    }
+    if (document.queryCommandState('insertOrderedList')) {
+        items.push('orderedList');
+    }
+    if (document.queryCommandState('insertUnorderedList')) {
+        items.push('unorderedList');
+    }
+
+    var formatBlock = document.queryCommandValue('formatBlock');
+    if (formatBlock.length > 0) {
+        items.push(formatBlock);
+    }
+
+    var ff = items.join(','));
+
 }
 
 RTE.focus = function() {
@@ -286,11 +290,10 @@ RTE.removeFormat = function() {
 // Event Listeners
 RTE.editor.addEventListener("input", RTE.callback);
 
-//RTE.editor.addEventListener("keyup", function(e) {
-//    var KEY_LEFT = 37, KEY_RIGHT = 39;
-//    if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
-//        RTE.enabledEditingItems(e);
-//    }
-//});
-//RTE.editor.addEventListener("click", RTE.enabledEditingItems);
-RTE.editor.addEventListener("keyup", RTE.enabledEditingItems);
+RTE.editor.addEventListener("keyup", function(e) {
+    var KEY_LEFT = 37, KEY_RIGHT = 39;
+    if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
+        RTE.enabledEditingItems(e);
+    }
+});
+RTE.editor.addEventListener("click", RTE.enabledEditingItems);
