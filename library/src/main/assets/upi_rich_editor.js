@@ -76,7 +76,7 @@ RTE.backcomplexinfo = function() {
         items.push(formatBlock);
     }
 
-    window.location.href = "rte-part-one://" + encodeURI(items.join(',')) + 'rte-part-two://' + encodeURI(RTE.getHtml());
+    window.location.href = "rte-part-one://" + encodeURI(items.join(',')) + ',rte-part-two://' + encodeURI(RTE.getHtml());
 }
 
 RTE.setHtml = function(contents) {
