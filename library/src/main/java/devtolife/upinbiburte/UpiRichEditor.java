@@ -157,6 +157,7 @@ public class UpiRichEditor extends WebView {
             }
         }
 
+
         if (mTextChangeListener != null) {
             mTextChangeListener.onTextChange(text);
             mTextChangeListener.onCursorTypes(types);
