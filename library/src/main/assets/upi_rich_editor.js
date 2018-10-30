@@ -26,6 +26,19 @@ RTE.editor = document.getElementById('editor');
 
 document.addEventListener("selectionchange", function() { RTE.backuprange(); });
 
+
+RTE.setHtml = function(contents) {
+    RTE.editor.innerHTML = decodeURIComponent(contents.replace(/\+/g, '%20'));
+}
+
+RTE.getHtml = function() {
+    return RTE.editor.innerHTML;
+}
+
+RTE.getText = function() {
+    return RTE.editor.innerText;
+}
+
 RTE.backComplexInfo = function() {
     var items = [];
     if (document.queryCommandState('bold')) {
@@ -73,18 +86,6 @@ RTE.backComplexInfo = function() {
     }
 
     window.location.href = "rte-part-one://" + encodeURI(items.join(',')) + ',rte-part-two://' + encodeURI(RTE.getHtml());
-}
-
-RTE.setHtml = function(contents) {
-    RTE.editor.innerHTML = decodeURIComponent(contents.replace(/\+/g, '%20'));
-}
-
-RTE.getHtml = function() {
-    return RTE.editor.innerHTML;
-}
-
-RTE.getText = function() {
-    return RTE.editor.innerText;
 }
 
 RTE.setBaseTextColor = function(color) {

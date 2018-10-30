@@ -124,7 +124,7 @@ public class UpiRichEditor extends WebView {
 
     private void stateAndHtmlCheck(String data) {
 
-        String text = data.replaceFirst("(.*)" + SCHEME_PART_TWO, "");
+        mContents = data.replaceFirst("(.*)" + SCHEME_PART_TWO, "");
 
         String preState = data.replaceFirst(SCHEME_PART_TWO + "(.*)", "");
         String state = preState.replaceFirst(SCHEME_PART_ONE, "").toUpperCase(Locale.ENGLISH);
@@ -137,7 +137,7 @@ public class UpiRichEditor extends WebView {
 
 
         if (mTextChangeListener != null) {
-            mTextChangeListener.onTextChange(text);
+            mTextChangeListener.onTextChange(mContents);
         }
 
         if (mDecorationStateListener != null) {
