@@ -342,5 +342,5 @@ RTE.editor.addEventListener("keyup", function(e) {
         RTE.enabledEditingItems(e);
     }
 });
-RTE.editor.addEventListener("click", RTE.enabledEditingItems);
+RTE.editor.addEventListener("click", RTE.backcomplexinfo);
 //RTE.editor.addEventListener("keyup", RTE.enabledEditingItems);

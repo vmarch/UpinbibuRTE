@@ -77,7 +77,7 @@ public class UpiRichEditor extends WebView {
     private static final String CALLBACK_SCHEME = "rte-callback://";
     private static final String STATE_SCHEME = "rte-state://";
     private static final String SCHEME_PART_ONE = "rte-part-one://";
-    private static final String SCHEME_PART_TWO = "rte-part-two//";
+    private static final String SCHEME_PART_TWO = "rte-part-two://";
 
     private boolean isReady = false;
     private String mContents;
