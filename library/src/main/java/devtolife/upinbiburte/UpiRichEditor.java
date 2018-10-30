@@ -42,7 +42,16 @@ public class UpiRichEditor extends WebView {
     public enum Type {
         BOLD,
         ITALIC,
+        SUBSCRIPT,
+        SUPERSCRIPT,
+        STRIKETHROUGH,
         UNDERLINE,
+        H1,
+        H2,
+        H3,
+        H4,
+        H5,
+        H6,
         ORDEREDLIST,
         UNORDEREDLIST,
         JUSTIFYCENTER,
@@ -66,6 +75,7 @@ public class UpiRichEditor extends WebView {
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
     private static final String CALLBACK_SCHEME = "rte-callback://";
     private static final String STATE_SCHEME = "rte-state://";
+    private static final String MY_SCHEME = "rte-my://";
     private boolean isReady = false;
     private String mContents;
     private OnTextChangeListener mTextChangeListener;
@@ -130,6 +140,21 @@ public class UpiRichEditor extends WebView {
             mDecorationStateListener.onStateChangeListener(state, types);
         }
     }
+
+    private void stateAndHtmlCheck(String text) {
+//        String state = text.replaceFirst(MY_SCHEME, "").toUpperCase(Locale.ENGLISH);
+//        List<Type> types = new ArrayList<>();
+//        for (Type type : Type.values()) {
+//            if (TextUtils.indexOf(state, type.name()) != -1) {
+//                types.add(type);
+//            }
+//        }
+
+        if (mTextChangeListener != null) {
+            mTextChangeListener.onTextChange(text);
+        }
+    }
+
 
     private void applyAttributes(Context context, AttributeSet attrs) {
         final int[] attrsArray = new int[]{
@@ -413,6 +438,9 @@ public class UpiRichEditor extends WebView {
                            return true;
             } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
                 stateCheck(decode);
+                return true;
+            } else if (TextUtils.indexOf(url, MY_SCHEME) == 0) {
+                stateAndHtmlCheck(decode);
                 return true;
             }
 
