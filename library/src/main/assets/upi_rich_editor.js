@@ -26,11 +26,7 @@ RTE.editor = document.getElementById('editor');
 
 document.addEventListener("selectionchange", function() { RTE.backuprange(); });
 
-RTE.callback = function() {
-    window.location.href = "rte-callback://" + encodeURI(RTE.getHtml());
-}
-
-RTE.backcomplexinfo = function() {
+RTE.backComplexInfo = function() {
     var items = [];
     if (document.queryCommandState('bold')) {
         items.push('bold');
@@ -237,7 +233,7 @@ RTE.insertLink = function(url, title) {
        sel.removeAllRanges();
        sel.addRange(range);
    }
-    RTE.callback();
+    RTE.backComplexInfo();
 }
 
 RTE.prepareInsert = function() {
@@ -265,55 +261,6 @@ RTE.restorerange = function(){
     selection.addRange(range);
 }
 
-RTE.enabledEditingItems = function(e) {
-    var items = [];
-    if (document.queryCommandState('bold')) {
-        items.push('bold');
-    }
-    if (document.queryCommandState('italic')) {
-        items.push('italic');
-    }
-    if (document.queryCommandState('subscript')) {
-        items.push('subscript');
-    }
-    if (document.queryCommandState('superscript')) {
-        items.push('superscript');
-    }
-    if (document.queryCommandState('strikeThrough')) {
-        items.push('strikeThrough');
-    }
-    if (document.queryCommandState('underline')) {
-        items.push('underline');
-    }
-    if (document.queryCommandState('insertOrderedList')) {
-        items.push('orderedList');
-    }
-    if (document.queryCommandState('insertUnorderedList')) {
-        items.push('unorderedList');
-    }
-    if (document.queryCommandState('justifyCenter')) {
-        items.push('justifyCenter');
-    }
-    if (document.queryCommandState('justifyFull')) {
-        items.push('justifyFull');
-    }
-    if (document.queryCommandState('justifyLeft')) {
-        items.push('justifyLeft');
-    }
-    if (document.queryCommandState('justifyRight')) {
-        items.push('justifyRight');
-    }
-    if (document.queryCommandState('insertHorizontalRule')) {
-        items.push('horizontalRule');
-    }
-    var formatBlock = document.queryCommandValue('formatBlock');
-    if (formatBlock.length > 0) {
-        items.push(formatBlock);
-    }
-
-    window.location.href = "rte-state://" + encodeURI(items.join(','));
-}
-
 RTE.focus = function() {
     var range = document.createRange();
     range.selectNodeContents(RTE.editor);
@@ -333,14 +280,12 @@ RTE.removeFormat = function() {
 }
 
 // Event Listeners
-RTE.editor.addEventListener("input", RTE.backcomplexinfo);
-//RTE.editor.addEventListener("input", RTE.enabledEditingItems);
-
+RTE.editor.addEventListener("input", RTE.backComplexInfo);
 RTE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
         RTE.enabledEditingItems(e);
     }
 });
-RTE.editor.addEventListener("click", RTE.backcomplexinfo);
-//RTE.editor.addEventListener("keyup", RTE.enabledEditingItems);
+RTE.editor.addEventListener("click", RTE.backComplexInfo);
+

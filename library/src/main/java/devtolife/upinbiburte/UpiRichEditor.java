@@ -56,7 +56,7 @@ public class UpiRichEditor extends WebView {
         UNORDEREDLIST,
         JUSTIFYCENTER,
         JUSTIFYFULL,
-        JUSTUFYLEFT,
+        JUSTIFYLEFT,
         JUSTIFYRIGHT
     }
 
@@ -74,8 +74,8 @@ public class UpiRichEditor extends WebView {
     }
 
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
-    private static final String CALLBACK_SCHEME = "rte-callback://";
-    private static final String STATE_SCHEME = "rte-state://";
+//    private static final String CALLBACK_SCHEME = "rte-callback://";
+//    private static final String STATE_SCHEME = "rte-state://";
     private static final String SCHEME_PART_ONE = "rte-part-one://";
     private static final String SCHEME_PART_TWO = "rte-part-two://";
 
@@ -123,27 +123,6 @@ public class UpiRichEditor extends WebView {
         mLoadListener = listener;
     }
 
-    private void callback(String text) {
-        mContents = text.replaceFirst(CALLBACK_SCHEME, "");
-        if (mTextChangeListener != null) {
-            mTextChangeListener.onTextChange(mContents);
-        }
-    }
-
-    private void stateCheck(String text) {
-        String state = text.replaceFirst(STATE_SCHEME, "").toUpperCase(Locale.ENGLISH);
-        List<Type> types = new ArrayList<>();
-        for (Type type : Type.values()) {
-            if (TextUtils.indexOf(state, type.name()) != -1) {
-                types.add(type);
-            }
-        }
-
-        if (mDecorationStateListener != null) {
-            mDecorationStateListener.onStateChangeListener(state, types);
-        }
-    }
-
     private void stateAndHtmlCheck(String data) {
 
         String text = data.replaceFirst("(.*)" + SCHEME_PART_TWO, "");
@@ -160,7 +139,10 @@ public class UpiRichEditor extends WebView {
 
         if (mTextChangeListener != null) {
             mTextChangeListener.onTextChange(text);
-            mTextChangeListener.onCursorTypes(types);
+        }
+
+        if (mDecorationStateListener != null) {
+            mDecorationStateListener.onStateChangeListener(state, types);
         }
     }
 
@@ -442,13 +424,7 @@ public class UpiRichEditor extends WebView {
                 return false;
             }
 
-            if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
-                callback(decode);
-                           return true;
-            } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
-                stateCheck(decode);
-                return true;
-            } else if (TextUtils.indexOf(url, SCHEME_PART_ONE) == 0) {
+            if (TextUtils.indexOf(url, SCHEME_PART_ONE) == 0) {
                 stateAndHtmlCheck(decode);
                 return true;
             }
