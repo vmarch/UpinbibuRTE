@@ -73,7 +73,7 @@ public class UpiRichEditor extends WebView {
     }
 
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
-//    private static final String CALLBACK_SCHEME = "rte-callback://";
+    //    private static final String CALLBACK_SCHEME = "rte-callback://";
 //    private static final String STATE_SCHEME = "rte-state://";
     private static final String SCHEME_PART_ONE = "rte-part-one://";
     private static final String SCHEME_PART_TWO = "rte-part-two://";
@@ -363,6 +363,11 @@ public class UpiRichEditor extends WebView {
     public void insertImage(String url, String alt) {
         exec("javascript:RTE.prepareInsert();");
         exec("javascript:RTE.insertImage('" + url + "', '" + alt + "');");
+    }
+
+    public void insertStyledImage(String url, String styles, String alt) {
+        exec("javascript:RTE.prepareInsert();");
+        exec("javascript:RTE.insertStyledImage('" + url + "', '" + styles + "', '" + alt + "');");
     }
 
     public void insertLink(String href, String title) {

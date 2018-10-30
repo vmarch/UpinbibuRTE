@@ -214,6 +214,11 @@ RTE.insertImage = function(url, alt) {
     RTE.insertHTML(html);
 }
 
+RTE.insertStyledImage = function(url, styles, alt) {
+    var html = '<img src="' + url + '" style="' + styles  + '" alt="' + alt + '" />';
+    RTE.insertHTML(html);
+}
+
 RTE.insertHTML = function(html) {
     RTE.restorerange();
     document.execCommand('insertHTML', false, html);
