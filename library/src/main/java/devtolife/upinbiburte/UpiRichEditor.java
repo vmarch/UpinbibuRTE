@@ -62,7 +62,6 @@ public class UpiRichEditor extends WebView {
 
     public interface OnTextChangeListener {
         void onTextChange(String text);
-        void onCursorTypes(List<Type> types);
     }
 
     public interface OnDecorationStateListener {
