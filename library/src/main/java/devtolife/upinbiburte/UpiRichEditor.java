@@ -62,6 +62,7 @@ public class UpiRichEditor extends WebView {
 
     public interface OnTextChangeListener {
         void onTextChange(String text);
+        void onCursorTypes(List<Type> types);
     }
 
     public interface OnDecorationStateListener {
@@ -75,7 +76,9 @@ public class UpiRichEditor extends WebView {
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
     private static final String CALLBACK_SCHEME = "rte-callback://";
     private static final String STATE_SCHEME = "rte-state://";
-    private static final String MY_SCHEME = "rte-my://";
+    private static final String SCHEME_PART_ONE = "rte-part-one://";
+    private static final String SCHEME_PART_TWO = "rte-part-two//";
+
     private boolean isReady = false;
     private String mContents;
     private OnTextChangeListener mTextChangeListener;
@@ -141,17 +144,22 @@ public class UpiRichEditor extends WebView {
         }
     }
 
-    private void stateAndHtmlCheck(String text) {
-//        String state = text.replaceFirst(MY_SCHEME, "").toUpperCase(Locale.ENGLISH);
-//        List<Type> types = new ArrayList<>();
-//        for (Type type : Type.values()) {
-//            if (TextUtils.indexOf(state, type.name()) != -1) {
-//                types.add(type);
-//            }
-//        }
+    private void stateAndHtmlCheck(String data) {
+
+        String text = data.replaceFirst("(.*)" + SCHEME_PART_TWO, "");
+
+        String preState = data.replaceFirst(SCHEME_PART_TWO + "(.*)", "");
+        String state = preState.replaceFirst(SCHEME_PART_ONE, "").toUpperCase(Locale.ENGLISH);
+        List<Type> types = new ArrayList<>();
+        for (Type type : Type.values()) {
+            if (TextUtils.indexOf(state, type.name()) != -1) {
+                types.add(type);
+            }
+        }
 
         if (mTextChangeListener != null) {
             mTextChangeListener.onTextChange(text);
+            mTextChangeListener.onCursorTypes(types);
         }
     }
 
@@ -439,7 +447,7 @@ public class UpiRichEditor extends WebView {
             } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
                 stateCheck(decode);
                 return true;
-            } else if (TextUtils.indexOf(url, MY_SCHEME) == 0) {
+            } else if (TextUtils.indexOf(url, SCHEME_PART_ONE) == 0) {
                 stateAndHtmlCheck(decode);
                 return true;
             }
