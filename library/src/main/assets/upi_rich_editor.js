@@ -14,32 +14,31 @@
  * limitations under the License.
  */
 
-var RTE = {};
+var URE = {};
 
-RTE.currentSelection = {
+URE.currentSelection = {
     "startContainer": 0,
     "startOffset": 0,
     "endContainer": 0,
     "endOffset": 0};
 
-RTE.editor = document.getElementById('editor');
+URE.editor = document.getElementById('editor');
 
-document.addEventListener("selectionchange", function() { RTE.backuprange(); });
+document.addEventListener("selectionchange", function() { URE.backuprange(); });
 
-
-RTE.setHtml = function(contents) {
-    RTE.editor.innerHTML = decodeURIComponent(contents.replace(/\+/g, '%20'));
+URE.setHtml = function(contents) {
+   URE.editor.innerHTML = decodeURIComponent(contents.replace(/\+/g, '%20'));
 }
 
-RTE.getHtml = function() {
-    return RTE.editor.innerHTML;
+URE.getHtml = function() {
+    return URE.editor.innerHTML;
 }
 
-RTE.getText = function() {
-    return RTE.editor.innerText;
+URE.getText = function() {
+    return URE.editor.innerText;
 }
 
-RTE.backComplexInfo = function() {
+URE.backComplexInfo = function() {
     var items = [];
     if (document.queryCommandState('bold')) {
         items.push('bold');
@@ -47,16 +46,7 @@ RTE.backComplexInfo = function() {
     if (document.queryCommandState('italic')) {
         items.push('italic');
     }
-    if (document.queryCommandState('subscript')) {
-        items.push('subscript');
-    }
-    if (document.queryCommandState('superscript')) {
-        items.push('superscript');
-    }
-    if (document.queryCommandState('strikeThrough')) {
-        items.push('strikeThrough');
-    }
-    if (document.queryCommandState('underline')) {
+       if (document.queryCommandState('underline')) {
         items.push('underline');
     }
     if (document.queryCommandState('insertOrderedList')) {
@@ -65,167 +55,113 @@ RTE.backComplexInfo = function() {
     if (document.queryCommandState('insertUnorderedList')) {
         items.push('unorderedList');
     }
-    if (document.queryCommandState('justifyCenter')) {
-        items.push('justifyCenter');
-    }
-    if (document.queryCommandState('justifyFull')) {
-        items.push('justifyFull');
-    }
-    if (document.queryCommandState('justifyLeft')) {
-        items.push('justifyLeft');
-    }
-    if (document.queryCommandState('justifyRight')) {
-        items.push('justifyRight');
-    }
-    if (document.queryCommandState('insertHorizontalRule')) {
-        items.push('horizontalRule');
-    }
     var formatBlock = document.queryCommandValue('formatBlock');
     if (formatBlock.length > 0) {
         items.push(formatBlock);
     }
 
-    window.location.href = "rte-part-one://" + encodeURI(items.join(',')) + ',rte-part-two://' + encodeURI(RTE.getHtml());
+    window.location.href = "style-part://" + encodeURI(items.join(',')) + ',text-part://' + encodeURI(URE.getHtml());
 }
 
-RTE.setBaseTextColor = function(color) {
-    RTE.editor.style.color  = color;
+URE.setBaseTextColor = function(color) {
+    URE.editor.style.color  = color;
 }
 
-RTE.setBaseFontSize = function(size) {
-    RTE.editor.style.fontSize = size;
+URE.setBaseFontSize = function(size) {
+    URE.editor.style.fontSize = size;
 }
 
-RTE.setPadding = function(left, top, right, bottom) {
-  RTE.editor.style.paddingLeft = left;
-  RTE.editor.style.paddingTop = top;
-  RTE.editor.style.paddingRight = right;
-  RTE.editor.style.paddingBottom = bottom;
+URE.setPadding = function(left, top, right, bottom) {
+    URE.editor.style.paddingLeft = left;
+    URE.editor.style.paddingTop = top;
+    URE.editor.style.paddingRight = right;
+    URE.editor.style.paddingBottom = bottom;
 }
 
-RTE.setBackgroundColor = function(color) {
+URE.setBackgroundColor = function(color) {
     document.body.style.backgroundColor = color;
 }
 
-RTE.setBackgroundImage = function(image) {
-    RTE.editor.style.backgroundImage = image;
+URE.setBackgroundImage = function(image) {
+    URE.editor.style.backgroundImage = image;
 }
 
-RTE.setWidth = function(size) {
-    RTE.editor.style.minWidth = size;
+URE.setWidth = function(size) {
+    URE.editor.style.minWidth = size;
 }
 
-RTE.setHeight = function(size) {
-    RTE.editor.style.height = size;
+URE.setHeight = function(size) {
+    URE.editor.style.height = size;
 }
 
-RTE.setTextAlign = function(align) {
-    RTE.editor.style.textAlign = align;
+URE.setTextAlign = function(align) {
+    URE.editor.style.textAlign = align;
 }
 
-RTE.setVerticalAlign = function(align) {
-    RTE.editor.style.verticalAlign = align;
+URE.setVerticalAlign = function(align) {
+    URE.editor.style.verticalAlign = align;
 }
 
-RTE.setPlaceholder = function(placeholder) {
-    RTE.editor.setAttribute("placeholder", placeholder);
+URE.setPlaceholder = function(placeholder) {
+    URE.editor.setAttribute("placeholder", placeholder);
 }
 
-RTE.setInputEnabled = function(inputEnabled) {
-    RTE.editor.contentEditable = String(inputEnabled);
+URE.setInputEnabled = function(inputEnabled) {
+    URE.editor.contentEditable = String(inputEnabled);
 }
 
-RTE.undo = function() {
+URE.undo = function() {
     document.execCommand('undo', false, null);
 }
 
-RTE.redo = function() {
-    document.execCommand('redo', false, null);
-}
-
-RTE.setBold = function() {
+URE.setBold = function() {
     document.execCommand('bold', false, null);
 }
 
-RTE.setItalic = function() {
+URE.setItalic = function() {
     document.execCommand('italic', false, null);
 }
 
-RTE.setUnderline = function() {
+URE.setUnderline = function() {
     document.execCommand('underline', false, null);
 }
 
-RTE.setBullets = function() {
+URE.setBullets = function() {
     document.execCommand('insertUnorderedList', false, null);
 }
 
-RTE.setNumbers = function() {
+URE.setNumbers = function() {
     document.execCommand('insertOrderedList', false, null);
 }
 
-RTE.setTextColor = function(color) {
-    RTE.restorerange();
+URE.setTextColor = function(color) {
+    URE.restorerange();
     document.execCommand("styleWithCSS", null, true);
     document.execCommand('foreColor', false, color);
     document.execCommand("styleWithCSS", null, false);
 }
 
-RTE.setTextBackgroundColor = function(color) {
-    RTE.restorerange();
-    document.execCommand("styleWithCSS", null, true);
-    document.execCommand('hiliteColor', false, color);
-    document.execCommand("styleWithCSS", null, false);
-}
-
-RTE.setFontSize = function(fontSize){
+URE.setFontSize = function(fontSize){
     document.execCommand("fontSize", false, fontSize);
 }
 
-RTE.setHeading = function(heading) {
-    document.execCommand('formatBlock', false, '<h'+heading+'>');
-}
-
-RTE.setIndent = function() {
-    document.execCommand('indent', false, null);
-}
-
-RTE.setOutdent = function() {
-    document.execCommand('outdent', false, null);
-}
-
-RTE.setJustifyLeft = function() {
-    document.execCommand('justifyLeft', false, null);
-}
-
-RTE.setJustifyCenter = function() {
-    document.execCommand('justifyCenter', false, null);
-}
-
-RTE.setJustifyRight = function() {
-    document.execCommand('justifyRight', false, null);
-}
-
-RTE.setBlockquote = function() {
-    document.execCommand('formatBlock', false, '<blockquote>');
-}
-
-RTE.insertImage = function(url, alt) {
+URE.insertImage = function(url, alt) {
     var html = '<img src="' + url + '" alt="' + alt + '" />';
-    RTE.insertHTML(html);
+    URE.insertHTML(html);
 }
 
-RTE.insertStyledImage = function(url, styles, alt) {
+URE.insertStyledImage = function(url, styles, alt) {
     var html = '<img src="' + url + '" style="' + styles  + '" alt="' + alt + '" />';
-    RTE.insertHTML(html);
+    URE.insertHTML(html);
 }
 
-RTE.insertHTML = function(html) {
-    RTE.restorerange();
+URE.insertHTML = function(html) {
+    URE.restorerange();
     document.execCommand('insertHTML', false, html);
 }
 
-RTE.insertLink = function(url, title) {
-    RTE.restorerange();
+URE.insertLink = function(url, title) {
+    URE.restorerange();
     var sel = document.getSelection();
     if (sel.toString().length == 0) {
         document.execCommand("insertHTML",false,"<a href='"+url+"'>"+title+"</a>");
@@ -238,19 +174,19 @@ RTE.insertLink = function(url, title) {
        range.surroundContents(el);
        sel.removeAllRanges();
        sel.addRange(range);
-   }
-    RTE.backComplexInfo();
+    }
+    URE.backComplexInfo();
 }
 
-RTE.prepareInsert = function() {
-    RTE.backuprange();
+URE.prepareInsert = function() {
+    URE.backuprange();
 }
 
-RTE.backuprange = function(){
+URE.backuprange = function(){
     var selection = window.getSelection();
     if (selection.rangeCount > 0) {
       var range = selection.getRangeAt(0);
-      RTE.currentSelection = {
+      URE.currentSelection = {
           "startContainer": range.startContainer,
           "startOffset": range.startOffset,
           "endContainer": range.endContainer,
@@ -258,40 +194,36 @@ RTE.backuprange = function(){
     }
 }
 
-RTE.restorerange = function(){
+URE.restorerange = function(){
     var selection = window.getSelection();
     selection.removeAllRanges();
     var range = document.createRange();
-    range.setStart(RTE.currentSelection.startContainer, RTE.currentSelection.startOffset);
-    range.setEnd(RTE.currentSelection.endContainer, RTE.currentSelection.endOffset);
+    range.setStart(URE.currentSelection.startContainer, URE.currentSelection.startOffset);
+    range.setEnd(URE.currentSelection.endContainer, URE.currentSelection.endOffset);
     selection.addRange(range);
 }
 
-RTE.focus = function() {
+URE.focus = function() {
     var range = document.createRange();
-    range.selectNodeContents(RTE.editor);
+    range.selectNodeContents(URE.editor);
     range.collapse(false);
     var selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
-    RTE.editor.focus();
+    URE.editor.focus();
 }
 
-RTE.blurFocus = function() {
-    RTE.editor.blur();
-}
-
-RTE.removeFormat = function() {
-    document.execCommand('removeFormat', false, null);
+URE.blurFocus = function() {
+    URE.editor.blur();
 }
 
 // Event Listeners
-RTE.editor.addEventListener("input", RTE.backComplexInfo);
-RTE.editor.addEventListener("keyup", function(e) {
+URE.editor.addEventListener("input", URE.backComplexInfo);
+URE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
-        RTE.enabledEditingItems(e);
+        URE.enabledEditingItems(e);
     }
 });
-RTE.editor.addEventListener("click", RTE.backComplexInfo);
+URE.editor.addEventListener("click", URE.backComplexInfo);
 
