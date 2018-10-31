@@ -219,11 +219,13 @@ URE.blurFocus = function() {
 
 // Event Listeners
 URE.editor.addEventListener("input", URE.backComplexInfo);
+
 URE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
         URE.enabledEditingItems(e);
     }
 });
+
 URE.editor.addEventListener("click", URE.backComplexInfo);
 
