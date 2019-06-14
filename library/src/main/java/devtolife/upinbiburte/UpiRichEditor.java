@@ -1,16 +1,19 @@
 package devtolife.upinbiburte;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -118,7 +121,6 @@ public class UpiRichEditor extends WebView {
         if (mTextChangeListener != null) {
             mTextChangeListener.onTextChange(mContents);
         }
-
     }
 
     private void getStylesPart(String primaryData) {
@@ -369,20 +371,34 @@ public class UpiRichEditor extends WebView {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            final Uri uri = Uri.parse(url);
+            return handleUri(uri);
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            final Uri uri = request.getUrl();
+            return handleUri(uri);
+        }
+
+        private boolean handleUri(final Uri uri) {
+
             String decode;
             try {
-                decode = URLDecoder.decode(url, "UTF-8");
+                decode = URLDecoder.decode(uri.toString(), "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 // No handling
                 return false;
             }
 
-            if (TextUtils.indexOf(url, STYLE_PART) == 0) {
+            if (TextUtils.indexOf(uri.toString(), STYLE_PART) == 0) {
                 stateAndContentCheck(decode);
                 return true;
+            }else{
+                return false;
             }
 
-            return super.shouldOverrideUrlLoading(view, url);
         }
     }
 }
