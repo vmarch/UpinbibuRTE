@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.vmarch'
+group = 'com.github.vmarch'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.1'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 29
-        versionCode 33
-        versionName '1.1.2'
+        targetSdkVersion 30
+        versionCode 34
+        versionName '1.1.3'
     }
 }
